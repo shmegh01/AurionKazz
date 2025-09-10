@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,42 +5,251 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Mini App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
+        
         .container {
+            width: 100%;
             max-width: 400px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.1);
             padding: 30px;
             border-radius: 20px;
             backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            text-align: center;
         }
-        button {
-            background: #007bff;
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .welcome-screen, .main-screen {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .welcome-screen {
+            display: flex;
+        }
+        
+        .main-screen {
+            display: none;
+        }
+        
+        .input-group {
+            margin: 15px 0;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #007bff, #0056b3);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 15px;
             border-radius: 10px;
             cursor: pointer;
             font-size: 16px;
-            margin: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+        
+        .nav-btn i {
+            font-size: 24px;
+        }
+        
+        .nav-btn span {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .user-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+        }
+        
+        .content-section {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+        }
+        
+        .active-content {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .active-nav {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Мое Mini App</h1>
-        <p>Привет, <span id="user-name"></span>!</p>
+        <!-- Экран приветствия -->
+        <div class="welcome-screen" id="welcomeScreen">
+            <h1>Добро пожаловать!</h1>
+            <p>Пожалуйста, введите ваш никнейм</p>
+            
+            <div class="input-group">
+                <label for="username">Ваш никнейм</label>
+                <input type="text" id="username" placeholder="Введите ваш никнейм">
+            </div>
+            
+            <button class="btn" onclick="saveUsername()">
+                <i class="fas fa-check"></i> Продолжить
+            </button>
+        </div>
         
-        <div>
-            <button onclick="sendData()">Отправить данные боту</button>
-            <button onclick="closeApp()">Закрыть</button>
+        <!-- Основной экран -->
+        <div class="main-screen" id="mainScreen">
+            <h1>Мое Mini App</h1>
+            
+            <div class="user-info">
+                <p>Привет, <span id="user-name">Пользователь</span>!</p>
+            </div>
+            
+            <!-- Навигационные кнопки -->
+            <div class="navigation">
+                <div class="nav-btn active-nav" onclick="showContent('profile')">
+                    <i class="fas fa-user"></i>
+                    <span>Профиль</span>
+                </div>
+                <div class="nav-btn" onclick="showContent('games')">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Игры</span>
+                </div>
+                <div class="nav-btn" onclick="showContent('info')">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Инфо</span>
+                </div>
+            </div>
+            
+            <!-- Контентные секции -->
+            <div id="profileContent" class="content-section active-content">
+                <h2>Ваш профиль</h2>
+                <p>Здесь вы можете управлять настройками вашего профиля, просматривать статистику и изменять личные данные.</p>
+                <button class="btn" style="margin-top: 15px;" onclick="sendData()">
+                    <i class="fas fa-paper-plane"></i> Отправить данные
+                </button>
+            </div>
+            
+            <div id="gamesContent" class="content-section">
+                <h2>Игры</h2>
+                <p>Выберите интересную игру из нашей коллекции. Новые игры добавляются каждую неделю!</p>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button class="btn" style="flex: 1;">
+                        <i class="fas fa-dice"></i> Играть
+                    </button>
+                    <button class="btn" style="flex: 1;">
+                        <i class="fas fa-trophy"></i> Рейтинг
+                    </button>
+                </div>
+            </div>
+            
+            <div id="infoContent" class="content-section">
+                <h2>Информация</h2>
+                <p>Это мини-приложение создано для демонстрации возможностей Telegram Web Apps. Здесь вы можете взаимодействовать с ботом и использовать различные функции.</p>
+                <button class="btn" style="margin-top: 15px;" onclick="closeApp()">
+                    <i class="fas fa-times"></i> Закрыть приложение
+                </button>
+            </div>
         </div>
     </div>
 
@@ -49,20 +257,48 @@
         // Инициализация Telegram Web App
         let tg = window.Telegram.WebApp;
         
-        // Показываем главную кнопку
-        tg.MainButton.setText("Готово");
-        tg.MainButton.show();
+        // Элементы интерфейса
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const mainScreen = document.getElementById('mainScreen');
+        const userNameElement = document.getElementById('user-name');
+        const usernameInput = document.getElementById('username');
         
-        // Получаем данные пользователя
-        document.getElementById('user-name').textContent = 
-            tg.initDataUnsafe.user?.first_name || 'Пользователь';
+        // Проверяем, есть ли сохраненный никнейм
+        let username = localStorage.getItem('username');
+        if (username) {
+            showMainScreen(username);
+        }
+        
+        // Функция сохранения ника и показа основного экрана
+        function saveUsername() {
+            const inputUsername = usernameInput.value.trim();
+            if (inputUsername) {
+                localStorage.setItem('username', inputUsername);
+                showMainScreen(inputUsername);
+            } else {
+                alert('Пожалуйста, введите ваш никнейм');
+            }
+        }
+        
+        // Показать основной экран
+        function showMainScreen(name) {
+            welcomeScreen.style.display = 'none';
+            mainScreen.style.display = 'flex';
+            userNameElement.textContent = name;
+            
+            // Инициализация кнопки Telegram
+            tg.MainButton.setText("Готово");
+            tg.MainButton.show();
+            tg.MainButton.onClick(sendData);
+        }
         
         // Функция отправки данных
         function sendData() {
             const data = {
                 action: 'button_click',
                 time: new Date().toISOString(),
-                user: tg.initDataUnsafe.user?.id
+                user: tg.initDataUnsafe.user?.id,
+                username: localStorage.getItem('username')
             };
             
             tg.sendData(JSON.stringify(data));
@@ -73,8 +309,24 @@
             tg.close();
         }
         
-        // Обработчик главной кнопки
-        tg.MainButton.onClick(sendData);
+        // Функция показа контента
+        function showContent(section) {
+            // Скрыть все секции контента
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active-content');
+            });
+            
+            // Убрать активный класс со всех кнопок
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active-nav');
+            });
+            
+            // Показать выбранную секцию
+            document.getElementById(section + 'Content').classList.add('active-content');
+            
+            // Активировать соответствующую кнопку
+            event.currentTarget.classList.add('active-nav');
+        }
     </script>
 </body>
 </html>
