@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Mini App</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Minecraft Никнейм</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -15,318 +14,279 @@
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, #000000, #1a1a1a, #332100);
+            color: #FF8C00;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             padding: 20px;
         }
         
         .container {
             width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
             text-align: center;
         }
         
-        h1 {
-            font-size: 28px;
+        .login-window {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(255, 140, 0, 0.4);
             margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.5s ease;
         }
         
-        .welcome-screen, .main-screen {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        
-        .welcome-screen {
-            display: flex;
-        }
-        
-        .main-screen {
-            display: none;
+        h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
         }
         
         .input-group {
-            margin: 15px 0;
-            text-align: left;
+            margin-bottom: 20px;
         }
         
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        input {
+        input[type="text"] {
             width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            padding: 12px 15px;
+            border: 2px solid #FF8C00;
+            border-radius: 8px;
+            background-color: #1a1a1a;
+            color: #FF8C00;
             font-size: 16px;
             outline: none;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
         
-        input:focus {
-            background: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+        input[type="text"]:focus {
+            border-color: #FF4500;
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.5);
         }
         
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .btn {
-            background: linear-gradient(to right, #007bff, #0056b3);
-            color: white;
+        button {
+            background: linear-gradient(to right, #FF8C00, #FF4500);
+            color: #000;
             border: none;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 12px 25px;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: bold;
             font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            transition: all 0.3s;
+            margin-top: 10px;
         }
         
-        .btn:hover {
+        button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
         }
         
-        .btn:active {
-            transform: translateY(0);
-        }
-        
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
-            gap: 10px;
-        }
-        
-        .nav-btn {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
-        }
-        
-        .nav-btn i {
-            font-size: 24px;
-        }
-        
-        .nav-btn span {
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .user-info {
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-        }
-        
-        .content-section {
+        .menu {
             display: none;
-            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(255, 140, 0, 0.4);
+        }
+        
+        .profile {
+            margin-bottom: 30px;
+        }
+        
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #FF8C00;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .nickname {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .menu-buttons {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            background: linear-gradient(to right, #1a1a1a, #332100);
+            padding: 15px 20px;
+            border-radius: 10px;
             text-align: left;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #FF8C00;
         }
         
-        .active-content {
+        .menu-btn:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+        }
+        
+        .menu-btn i {
+            font-size: 24px;
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+        }
+        
+        .btn-text {
+            flex-grow: 1;
+        }
+        
+        .btn-title {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .btn-desc {
+            font-size: 14px;
+            color: #CCCCCC;
+        }
+        
+        .message {
+            margin-top: 15px;
+            color: #FF8C00;
+            font-size: 14px;
+            min-height: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .visible {
             display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .active-nav {
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Экран приветствия -->
-        <div class="welcome-screen" id="welcomeScreen">
-            <h1>Добро пожаловать!</h1>
-            <p>Пожалуйста, введите ваш никнейм</p>
-            
+        <div id="loginWindow" class="login-window">
+            <h1>Введите ваш никнейм</h1>
             <div class="input-group">
-                <label for="username">Ваш никнейм</label>
-                <input type="text" id="username" placeholder="Введите ваш никнейм">
+                <input type="text" id="nickInput" placeholder="Ваш Minecraft никнейм" required>
             </div>
-            
-            <button class="btn" onclick="saveUsername()">
-                <i class="fas fa-check"></i> Продолжить
-            </button>
+            <button id="saveBtn">Сохранить ник</button>
+            <div id="message" class="message"></div>
         </div>
         
-        <!-- Основной экран -->
-        <div class="main-screen" id="mainScreen">
-            <h1>Мое Mini App</h1>
-            
-            <div class="user-info">
-                <p>Привет, <span id="user-name">Пользователь</span>!</p>
+        <div id="menu" class="menu">
+            <div class="profile">
+                <div class="avatar">
+                    <img id="avatarImg" src="" alt="Аватар">
+                </div>
+                <div id="profileNick" class="nickname"></div>
+                <div class="status">Онлайн</div>
             </div>
             
-            <!-- Навигационные кнопки -->
-            <div class="navigation">
-                <div class="nav-btn active-nav" onclick="showContent('profile')">
+            <div class="menu-buttons">
+                <div class="menu-btn" id="profileBtn">
                     <i class="fas fa-user"></i>
-                    <span>Профиль</span>
+                    <div class="btn-text">
+                        <div class="btn-title">Профиль</div>
+                        <div class="btn-desc">Просмотр и редактирование профиля</div>
+                    </div>
                 </div>
-                <div class="nav-btn" onclick="showContent('games')">
+                
+                <div class="menu-btn" id="gamesBtn">
                     <i class="fas fa-gamepad"></i>
-                    <span>Игры</span>
+                    <div class="btn-text">
+                        <div class="btn-title">Игры</div>
+                        <div class="btn-desc">Выбор игровых режимов</div>
+                    </div>
                 </div>
-                <div class="nav-btn" onclick="showContent('info')">
+                
+                <div class="menu-btn" id="infoBtn">
                     <i class="fas fa-info-circle"></i>
-                    <span>Инфо</span>
+                    <div class="btn-text">
+                        <div class="btn-title">Информация</div>
+                        <div class="btn-desc">О сервере и правилах</div>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Контентные секции -->
-            <div id="profileContent" class="content-section active-content">
-                <h2>Ваш профиль</h2>
-                <p>Здесь вы можете управлять настройками вашего профиля, просматривать статистику и изменять личные данные.</p>
-                <button class="btn" style="margin-top: 15px;" onclick="sendData()">
-                    <i class="fas fa-paper-plane"></i> Отправить данные
-                </button>
-            </div>
-            
-            <div id="gamesContent" class="content-section">
-                <h2>Игры</h2>
-                <p>Выберите интересную игру из нашей коллекции. Новые игры добавляются каждую неделю!</p>
-                <div style="display: flex; gap: 10px; margin-top: 15px;">
-                    <button class="btn" style="flex: 1;">
-                        <i class="fas fa-dice"></i> Играть
-                    </button>
-                    <button class="btn" style="flex: 1;">
-                        <i class="fas fa-trophy"></i> Рейтинг
-                    </button>
-                </div>
-            </div>
-            
-            <div id="infoContent" class="content-section">
-                <h2>Информация</h2>
-                <p>Это мини-приложение создано для демонстрации возможностей Telegram Web Apps. Здесь вы можете взаимодействовать с ботом и использовать различные функции.</p>
-                <button class="btn" style="margin-top: 15px;" onclick="closeApp()">
-                    <i class="fas fa-times"></i> Закрыть приложение
-                </button>
             </div>
         </div>
     </div>
 
     <script>
-        // Инициализация Telegram Web App
-        let tg = window.Telegram.WebApp;
-        
-        // Элементы интерфейса
-        const welcomeScreen = document.getElementById('welcomeScreen');
-        const mainScreen = document.getElementById('mainScreen');
-        const userNameElement = document.getElementById('user-name');
-        const usernameInput = document.getElementById('username');
-        
-        // Проверяем, есть ли сохраненный никнейм
-        let username = localStorage.getItem('username');
-        if (username) {
-            showMainScreen(username);
-        }
-        
-        // Функция сохранения ника и показа основного экрана
-        function saveUsername() {
-            const inputUsername = usernameInput.value.trim();
-            if (inputUsername) {
-                localStorage.setItem('username', inputUsername);
-                showMainScreen(inputUsername);
-            } else {
-                alert('Пожалуйста, введите ваш никнейм');
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginWindow = document.getElementById('loginWindow');
+            const menu = document.getElementById('menu');
+            const nickInput = document.getElementById('nickInput');
+            const saveBtn = document.getElementById('saveBtn');
+            const message = document.getElementById('message');
+            const profileNick = document.getElementById('profileNick');
+            const avatarImg = document.getElementById('avatarImg');
+            
+            // Проверяем, есть ли уже сохраненный ник
+            const savedNick = localStorage.getItem('userNick');
+            if (savedNick) {
+                // Показываем меню, если ник уже сохранен
+                showMenu(savedNick);
             }
-        }
-        
-        // Показать основной экран
-        function showMainScreen(name) {
-            welcomeScreen.style.display = 'none';
-            mainScreen.style.display = 'flex';
-            userNameElement.textContent = name;
             
-            // Инициализация кнопки Telegram
-            tg.MainButton.setText("Готово");
-            tg.MainButton.show();
-            tg.MainButton.onClick(sendData);
-        }
-        
-        // Функция отправки данных
-        function sendData() {
-            const data = {
-                action: 'button_click',
-                time: new Date().toISOString(),
-                user: tg.initDataUnsafe.user?.id,
-                username: localStorage.getItem('username')
-            };
-            
-            tg.sendData(JSON.stringify(data));
-        }
-        
-        // Функция закрытия приложения
-        function closeApp() {
-            tg.close();
-        }
-        
-        // Функция показа контента
-        function showContent(section) {
-            // Скрыть все секции контента
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active-content');
+            // Обработчик сохранения ника
+            saveBtn.addEventListener('click', function() {
+                const nick = nickInput.value.trim();
+                
+                if (nick) {
+                    // Сохраняем в localStorage
+                    localStorage.setItem('userNick', nick);
+                    message.textContent = `Ник "${nick}" успешно сохранен!`;
+                    
+                    // Показываем меню
+                    setTimeout(() => {
+                        showMenu(nick);
+                    }, 1000);
+                } else {
+                    message.textContent = 'Пожалуйста, введите корректный ник.';
+                }
             });
             
-            // Убрать активный класс со всех кнопок
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active-nav');
+            // Функция показа меню
+            function showMenu(nick) {
+                loginWindow.classList.add('hidden');
+                menu.classList.add('visible');
+                profileNick.textContent = nick;
+                
+                // Получаем аватарку с Minecraft API
+                avatarImg.src = `https://crafatar.com/avatars/${nick}?size=100&default=steve`;
+            }
+            
+            // Обработчики для кнопок меню
+            document.getElementById('profileBtn').addEventListener('click', function() {
+                alert('Переход в профиль пользователя');
             });
             
-            // Показать выбранную секцию
-            document.getElementById(section + 'Content').classList.add('active-content');
+            document.getElementById('gamesBtn').addEventListener('click', function() {
+                alert('Выбор игровых режимов');
+            });
             
-            // Активировать соответствующую кнопку
-            event.currentTarget.classList.add('active-nav');
-        }
+            document.getElementById('infoBtn').addEventListener('click', function() {
+                alert('Информация о сервере');
+            });
+        });
     </script>
 </body>
 </html>
